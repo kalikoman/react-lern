@@ -1,25 +1,65 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import './styles/App.css'
+import PostList from "./components/PostList";
+import PostForm from "./components/PostForm";
+import Myselect from "./components/Ui/select/Myselect";
+import Myinput from "./components/Ui/input/Myinput";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [js_posts, setJs_posts] = useState([
+        { id: 1, title: 'HTML', body: 'base' },
+        { id: 2, title: 'React', body: 'js library' },
+        { id: 3, title: 'CSS', body: 'styles' }
+    ])
+    const [search, setSearch] = useState('')
+    const [selectedSort, setSelectedSort] = useState('')
+    function getSortedPosts() {
+        if (selectedSort) {
+            return [...js_posts].sort((first, second) => first[selectedSort].localeCompare(second[selectedSort]))
+        }
+        return js_posts;
+    }
+    const sortedPosts = getSortedPosts();
+    const removePost = (post) => {
+        setJs_posts(js_posts.filter(p=> p.id !== post.id))
+    }
+    const createPost = (newPost) => {
+        setJs_posts([...js_posts, newPost])
+    }
+
+    const sortPosts = (sort) => {
+        setSelectedSort(sort)
+       // setJs_posts()
+    }
+
+    return (
+        <div className="App">
+            <PostForm create={createPost}/>
+            <hr style={{margin: '15px 0'}}/>
+            <Myinput
+            placeholder="Search..."
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            />
+            <Myselect
+                value={selectedSort}
+                onChange={sortPosts}
+            defaultValue={'Select option'}
+            options={[{
+                name: 'Name',
+                value: 'title'
+            }, {
+                name: 'Descr',
+                value: 'body'
+            }]}
+            />
+            {js_posts.length !== 0
+                    ? <PostList remove={removePost} posts={ sortedPosts } title={ 'Javascript posts' }/>
+                    : <h1 style={{textAlign: "center"}}>Have no posts</h1>
+            }
+
+        </div>
+    );
 }
 
 export default App;
