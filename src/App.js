@@ -14,8 +14,17 @@ function App() {
     const [search, setSearch] = useState('')
     const [selectedSort, setSelectedSort] = useState('')
     function getSortedPosts() {
+        if (selectedSort && search) {
+            return [...js_posts].sort((first, second) =>
+                first[selectedSort].localeCompare(second[selectedSort])).filter(post =>
+            post.title === search || post.body === search);
+        }
         if (selectedSort) {
             return [...js_posts].sort((first, second) => first[selectedSort].localeCompare(second[selectedSort]))
+        }
+        if (search) {
+            return [...js_posts].filter(post =>
+                post.title === search || post.body === search)
         }
         return js_posts;
     }
@@ -32,6 +41,10 @@ function App() {
        // setJs_posts()
     }
 
+    const setSearchValue = (searchValue) => {
+        setSearch(searchValue.target.value);
+    }
+
     return (
         <div className="App">
             <PostForm create={createPost}/>
@@ -39,7 +52,7 @@ function App() {
             <Myinput
             placeholder="Search..."
             value={search}
-            onChange={e => setSearch(e.target.value)}
+            onChange={setSearchValue}
             />
             <Myselect
                 value={selectedSort}
