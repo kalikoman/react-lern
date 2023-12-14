@@ -44,7 +44,12 @@ function App() {
     const setSearchValue = (searchValue) => {
         setSearch(searchValue.target.value);
     }
-
+    const jss_posts = sortedPosts.filter(post =>
+        post.type === 'js_type'
+    );
+    const php_posts = sortedPosts.filter(post =>
+        post.type === 'php_type'
+    );;
     return (
         <div className="App">
             <PostForm create={createPost}/>
@@ -66,9 +71,15 @@ function App() {
                 value: 'body'
             }]}
             />
-            {js_posts.length !== 0
-                    ? <PostList remove={removePost} posts={ sortedPosts } title={ 'Javascript posts' }/>
-                    : <h1 style={{textAlign: "center"}}>Have no posts</h1>
+            {
+                jss_posts.length !== 0
+                    ? <PostList remove={removePost} posts={ jss_posts } title={ 'Javascript posts' }/>
+                    : <h1 style={{textAlign: "center"}}>Have no js posts</h1>
+            }
+            {
+                php_posts.length !== 0
+                    ? <PostList remove={removePost} posts={ php_posts } title={ 'Php posts' }/>
+                    : <h1 style={{textAlign: "center"}}>Have no php posts</h1>
             }
 
         </div>
