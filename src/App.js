@@ -7,9 +7,9 @@ import Myinput from "./components/Ui/input/Myinput";
 
 function App() {
     const [js_posts, setJs_posts] = useState([
-        { id: 1, title: 'HTML', body: 'base' },
-        { id: 2, title: 'React', body: 'js library' },
-        { id: 3, title: 'CSS', body: 'styles' }
+        { id: 1, title: 'HTML', body: 'base', type:'js_type' },
+        { id: 2, title: 'React', body: 'js library', type:'js_type' },
+        { id: 3, title: 'CSS', body: 'styles', type:'js_type' }
     ])
     const [search, setSearch] = useState('')
     const [selectedSort, setSelectedSort] = useState('')
